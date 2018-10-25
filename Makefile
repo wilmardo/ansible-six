@@ -2,6 +2,5 @@ all: test
 .PHONY: test
 
 test:
-	@echo "INFO:	test"
+	pip install -r test-requirements.txt
 	molecule test
-

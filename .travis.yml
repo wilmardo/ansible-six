@@ -1,0 +1,19 @@
+---
+sudo: required
+services:
+  - docker
+language: python
+cache:
+  - pip
+os:
+  - linux
+stages:
+  - phase1
+jobs:
+  include:
+    - stage: phase1
+      script:
+        - make
+env:
+  global:
+    - PIP_DISABLE_PIP_VERSION_CHECK=1
