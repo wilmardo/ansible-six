@@ -1,0 +1,41 @@
+---
+# tasks file for ansible-six
+- name: set default facts
+  set_fact:
+    ansible_playbook: ansible-playbook
+    pip: pip2
+    python: python2
+    virtualenv: virtualenv
+  when: ansible_python_version.split('.')[0] != '3'
+
+- name: set py3 facts
+  set_fact:
+    ansible_playbook: ansible-playbook-3
+    pip: pip3
+    python: python3
+    virtualenv: virtualenv-3
+  when: ansible_python_version.split('.')[0] == '3'
+
+- name: install system deps
+  package:
+    name:
+      - libffi-devel
+      - python*-virtualenv
+      - |
+        {%- if ansible_python_version.split('.')[0] == '3' -%}
+        python3-virtualenv
+        {%- else -%}
+        python-virtualenv
+        {%- endif -%}
+  register: result
+  become: true
+
+- name: test that commands are working
+  shell: |
+    {{ python }} --version
+    {{ ansible_playbook }} --version
+    {{ pip }} --version
+    {{ virtualenv }} --version
+  changed_when: false
+  tags:
+    test
