@@ -1,1 +1,2 @@
 molecule
+docker>=3.5.0 # https://github.com/metacloud/molecule/issues/1384
