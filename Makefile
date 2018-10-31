@@ -3,4 +3,4 @@ all: test
 
 test:
 	pip install -q -r test-requirements.txt
-	molecule test
+	molecule --debug test
